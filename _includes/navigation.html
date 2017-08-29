@@ -1,0 +1,43 @@
+				<ul class="nav nav-list">
+					<li class="home"><a{% if (page.id == null) %} class="active"{% endif %} href="/">Home</a></li>
+					<li>
+						<a class="nav-header" href="">Getting started</a>
+						<ul>
+							<!--li><a{% if (page.id == "/gettingstarted/motivation") %} class="active"{% endif %} href="/gettingstarted/motivation.html">Motivation</a></li-->
+							<li><a{% if (page.id == "/gettingstarted/installation") %} class="active"{% endif %} href="/gettingstarted/installation.html">Installation</a></li>
+							<li><a{% if (page.id == "/gettingstarted/hello-world") %} class="active"{% endif %} href="/gettingstarted/hello-world.html">Hello, world</a></li>
+							<li><a{% if (page.id == "/userguide/tutorials") %} class="active"{% endif %} href="/userguide/tutorials.html">Tutorials</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-header" href="">User guide</a>
+						<ul>
+							<li><a{% if (page.id == "/userguide/api") %} class="active"{% endif %} href="/userguide/api.html">API</a></li>
+							<li>
+								<ul>
+									<li><a{% if (page.id == "/userguide/api/events") %} class="active"{% endif %} href="/userguide/api/events.html">Events</a></li>
+									<li><a{% if (page.id == "/userguide/api/transient") %} class="active"{% endif %} href="/userguide/api/transient.html">Transient</a></li>
+									<li><a{% if (page.id == "/userguide/api/cookies") %} class="active"{% endif %} href="/userguide/api/cookies.html">Cookies</a></li>
+									<li><a{% if (page.id == "/userguide/api/assets") %} class="active"{% endif %} href="/userguide/api/assets.html">Assets</a></li>
+									<li><a{% if (page.id == "/userguide/api/signaling") %} class="active"{% endif %} href="/userguide/api/signaling.html">Signaling</a></li>
+									<li><a{% if (page.id == "/userguide/api/messaging") %} class="active"{% endif %} href="/userguide/api/messaging.html">Messaging</a></li>
+									<li><a{% if (page.id == "/userguide/api/tagging") %} class="active"{% endif %} href="/userguide/api/tagging.html">Tagging</a></li>
+									<li><a{% if (page.id == "/userguide/api/access-tokens") %} class="active"{% endif %} href="/userguide/api/access-tokens.html">Access Tokens</a></li>
+									<li><a{% if (page.id == "/userguide/api/restore-delete") %} class="active"{% endif %} href="/userguide/api/restore-delete.html">Restore/Delete</a></li>
+								</ul>
+							</li>
+							<li><a{% if (page.id == "/userguide/http-api") %} class="active"{% endif %} href="/userguide/http-api.html">HTTP API</a></li>
+							<li><a{% if (page.id == "/userguide/server-config") %} class="active"{% endif %} href="/userguide/server-config.html">Server Config</a></li>
+							<li><a{% if (page.id == "/userguide/client-config") %} class="active"{% endif %} href="/userguide/client-config.html">Client Config</a></li>
+							<li><a{% if (page.id == "/userguide/versioning") %} class="active"{% endif %} href="/userguide/versioning.html">Versioning</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-header" href="">Developer guide</a>
+						<ul>
+							<li><a{% if (page.id == "/developerguide/introduction") %} class="active"{% endif %} href="/developerguide/introduction.html">Introduction</a></li>
+							<li><a{% if (page.id == "/developerguide/how-it-works") %} class="active"{% endif %} href="/developerguide/how-it-works.html">How it works</a></li>
+							<li><a{% if (page.id == "/developerguide/creating-a-module") %} class="active"{% endif %} href="/developerguide/creating-a-module.html">Creating a module</a></li>
+						</ul>
+					</li>
+				</ul>

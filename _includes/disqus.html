@@ -1,0 +1,18 @@
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//' + '{{ site.disqus_shortname }}' + '.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+	function waitForIframe(callback) {
+		var iframe = 	document.querySelector('iframe[id^=dsq]');
+		if (iframe) return callback(iframe);
+		setTimeout(waitForIframe, 0, callback);
+	}
+	waitForIframe(function(iframe) {
+		var scale = 0.88, width = 1/scale * 100, offset = (width - 100) / 2;
+		iframe.setAttribute("style", `transform:scale(${scale});width:${width}%;margin-left:-${offset}%;`);
+	});
+})();
+</script>

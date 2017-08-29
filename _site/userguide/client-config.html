@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Client Configuration | Webstrates</title>
+	<meta name="description" content="A research prototype enabling collaborative editing of websites through DOM manipulations.">
+	<link rel="stylesheet" href="/css/syntax.css">
+	<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+	<div id="container">
+		<header>
+			<h1>
+				<a class="brand" href="/">Webstrates</a>
+				<small>A research prototype enabling collaborative editing of websites through DOM manipulations.</small>
+			</h1>
+		</header>
+		<main>
+			<div id="navigation">
+				<ul class="nav nav-list">
+					<li class="home"><a href="/">Home</a></li>
+					<li>
+						<a class="nav-header" href="">Getting started</a>
+						<ul>
+							<!--li><a href="/gettingstarted/motivation.html">Motivation</a></li-->
+							<li><a href="/gettingstarted/installation.html">Installation</a></li>
+							<li><a href="/gettingstarted/hello-world.html">Hello, world</a></li>
+							<li><a href="/userguide/tutorials.html">Tutorials</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-header" href="">User guide</a>
+						<ul>
+							<li><a href="/userguide/api.html">API</a></li>
+							<li>
+								<ul>
+									<li><a href="/userguide/api/events.html">Events</a></li>
+									<li><a href="/userguide/api/transient.html">Transient</a></li>
+									<li><a href="/userguide/api/cookies.html">Cookies</a></li>
+									<li><a href="/userguide/api/assets.html">Assets</a></li>
+									<li><a href="/userguide/api/signaling.html">Signaling</a></li>
+									<li><a href="/userguide/api/messaging.html">Messaging</a></li>
+									<li><a href="/userguide/api/tagging.html">Tagging</a></li>
+									<li><a href="/userguide/api/access-tokens.html">Access Tokens</a></li>
+									<li><a href="/userguide/api/restore-delete.html">Restore/Delete</a></li>
+								</ul>
+							</li>
+							<li><a href="/userguide/http-api.html">HTTP API</a></li>
+							<li><a href="/userguide/server-config.html">Server Config</a></li>
+							<li><a class="active" href="/userguide/client-config.html">Client Config</a></li>
+							<li><a href="/userguide/versioning.html">Versioning</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-header" href="">Developer guide</a>
+						<ul>
+							<li><a href="/developerguide/introduction.html">Introduction</a></li>
+							<li><a href="/developerguide/how-it-works.html">How it works</a></li>
+							<li><a href="/developerguide/creating-a-module.html">Creating a module</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div id="content">
+				<div class="page-header">
+					<h1>Client Configuration
+						
+					</h1>
+				</div>
+				<ul id="markdown-toc">
+  <li><a href="#modules" id="markdown-toc-modules">Modules</a></li>
+  <li><a href="#transient-elements-and-attributes" id="markdown-toc-transient-elements-and-attributes">Transient elements and attributes</a></li>
+  <li><a href="#websocket-configuration" id="markdown-toc-websocket-configuration">Websocket configuration</a></li>
+  <li><a href="#webrtc-configuration" id="markdown-toc-webrtc-configuration">WebRTC configuration</a></li>
+</ul>
+
+<p>The client configuration can be found in <code class="highlighter-rouge">./client/config.js</code> and is (contrary to the server
+configuration (<code class="highlighter-rouge">./config.json</code>) a JavaScript file rather than a JSON file. The file exports an
+object with properties (using the <code class="highlighter-rouge">module.exports = { ...};</code> syntax).</p>
+
+<p>After changing the configuration, remember to re-run <code class="highlighter-rouge">npm run build</code>. Depending on <a href="/userguide/server-config.html#basic-settings">server
+configuration caching settings</a>, it may also be
+necessary for clients to clear caches or perform a hard refresh.</p>
+
+<div class="info box">
+	<h3>What does hard refresh mean?</h3>
+	<p>Many web applications (including Webstrates) are configured to tell the browser to cache
+	certain resources, (i.e. save the resources between page reloads) to save bandwidth and speed-up
+	page load times. To circumvent this, all modern browsers implement a "hard refresh" feature that
+	forces the browser to redownload caches resources.</p>
+	<ul>
+		<li>
+			<strong>Apple Safari</strong>:
+			Hold down the Command key <kbd>&#8984;</kbd> and Shift key <kbd>&#8679;</kbd> while pressing
+			the <em>Reload this page</em> button.
+		</li>
+		<li>
+			<strong>Microsoft Edge</strong>:
+			Hold down the Control key <kbd>CTRL</kbd> while pressing <kbd>F5</kbd>.
+		</li>
+		<li>
+			<strong>Google Chrome and Mozilla Firefox</strong>:
+			On macOS: Same as Apple Safari. On Linux and Windows: Same as Microsoft Edge.
+		</li>
+	</ul>
+</div>
+
+<h2 id="modules">Modules</h2>
+
+<p>Webstrates is built around events and modules subscribing and reacting to said events. The <code class="highlighter-rouge">modules</code>
+propery in the configuration contains a list of modules to import from the <code class="highlighter-rouge">./client/webstrates/</code>
+folder.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">modules</span><span class="err">:</span> <span class="p">[</span>
+  <span class="s1">'globalObject'</span><span class="p">,</span>
+  <span class="s1">'loadedEvent'</span><span class="p">,</span>
+  <span class="s1">'userObject'</span><span class="p">,</span>
+  <span class="s1">'cookies'</span><span class="p">,</span>
+  <span class="s1">'nodeObjects'</span><span class="p">,</span>
+  <span class="s1">'domEvents'</span><span class="p">,</span>
+  <span class="s1">'transclusionEvent'</span><span class="p">,</span>
+  <span class="s1">'connectionEvents'</span><span class="p">,</span>
+  <span class="s1">'permissions'</span><span class="p">,</span>
+  <span class="s1">'tagging'</span><span class="p">,</span>
+  <span class="s1">'clientManager'</span><span class="p">,</span>
+  <span class="s1">'signaling'</span><span class="p">,</span>
+  <span class="s1">'signalStream'</span><span class="p">,</span>
+  <span class="s1">'assets'</span><span class="p">,</span>
+  <span class="s1">'messages'</span><span class="p">,</span>
+  <span class="s1">'keepAlive'</span>
+<span class="p">],</span>
+</code></pre>
+</div>
+
+<p>The client code also consists of certain “core” modules, containing core functionality (also located
+in <code class="highlighter-rouge">./client/webstrates</code>), but these are loaded automatically and should not be included in the
+list.</p>
+
+<p>The order of the items should not be changed as some modules depend on each other, and thus must be
+loaded in a specific order. User-created modules should be added to the bottom of the list.</p>
+
+<div class="info box">
+	<p>See <a href="/developerguide/creating-a-module.html">Creating a module</a> in the Developer
+	guide to learn how to create custom modules.</p>
+</div>
+
+<h2 id="transient-elements-and-attributes">Transient elements and attributes</h2>
+
+<p>By default, all <code class="highlighter-rouge">&lt;transient</code>&gt; elements are (rather appropriately)
+<a href="/userguide/api/transient#transient-elements">transient</a>. However, the client configuration
+allows the user to define a predicate function defining whether a given
+<a href="https://developer.mozilla.org/en/docs/Web/API/Node">DOM Node</a> should be transient.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">isTransientElement</span><span class="err">:</span> <span class="p">(</span><span class="nx">DOMNode</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">DOMNode</span><span class="p">.</span><span class="nx">matches</span><span class="p">(</span><span class="s1">'transient'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>Likewise for attributes, any attribute’s name which starts with <code class="highlighter-rouge">transient-</code> is considered
+transient. The user may also define a custom predicate function here to customize this behavior.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">isTransientAttribute</span><span class="err">:</span> <span class="p">(</span><span class="nx">DOMNode</span><span class="p">,</span> <span class="nx">attributeName</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">attributeName</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s1">'transient-'</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>To disable transient tags and attributes altogether, one could replace the default implementations
+with dummy predicate functions that always return <code class="highlighter-rouge">false</code>.</p>
+
+<h2 id="websocket-configuration">Websocket configuration</h2>
+
+<p><code class="highlighter-rouge">reuseWebsocket</code> decides whether Webstrates should use the experimental websocket usage feature.
+When this is enabled, transcluded webstrates will attempt to reuse the parent frame’s websocket.
+This is very experimental and should probably be disabled.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">reuseWebsocket</span><span class="err">:</span> <span class="kc">true</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">keepAliveInterval</code> defines the interval in seconds between keep alive messages are sent to the
+server. Some systems may close websockets that have been inactive for a minute or longer.</p>
+
+<p>Setting this to a falsy value disables keep alive messages. Alternatively, <code class="highlighter-rouge">keepAlive</code> can be
+removed from the <code class="highlighter-rouge">modules</code> array should the user want to disable keep alive messages (not
+recommended).</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">keepAliveInterval</span><span class="err">:</span> <span class="mi">55</span>
+</code></pre>
+</div>
+
+<h2 id="webrtc-configuration">WebRTC configuration</h2>
+
+<p><a href="/userguide/api/signaling.html#signal-streaming">Signal streaming</a> uses WebRTC. To establish WebRTC
+connections behind a NAT, STUN servers are used. The default configuration includes Mozilla and
+Google’s free STUN servers.</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">peerConnectionConfig</span><span class="err">:</span> <span class="p">{</span>
+  <span class="s1">'iceServers'</span><span class="err">:</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="na">url</span><span class="p">:</span> <span class="s1">'stun:stun.services.mozilla.com'</span> <span class="p">},</span>
+    <span class="p">{</span> <span class="na">url</span><span class="p">:</span> <span class="s1">'stun:stun.l.google.com:19302'</span> <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>In some cases (e.g. when behind corporate firewalls), a STUN server isn’t sufficient, in which case
+users may have to add their own TURN server to the list.</p>
+
+
+
+				<div>
+
+					<div id="navigation"></div>
+					<div id="disqus">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//' + 'webstrates' + '.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+	function waitForIframe(callback) {
+		var iframe = 	document.querySelector('iframe[id^=dsq]');
+		if (iframe) return callback(iframe);
+		setTimeout(waitForIframe, 0, callback);
+	}
+	waitForIframe(function(iframe) {
+		var scale = 0.88, width = 1/scale * 100, offset = (width - 100) / 2;
+		iframe.setAttribute("style", `transform:scale(${scale});width:${width}%;margin-left:-${offset}%;`);
+	});
+})();
+</script>
+					</div>
+
+				</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-104382751-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+			</div>
+		</main>
+		<footer>
+			Documentation for <a href="https://github.com/Webstrates/Webstrates">Webstrates</a>
+		</footer>
+	</div>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Introduction | Webstrates</title>
+	<meta name="description" content="A research prototype enabling collaborative editing of websites through DOM manipulations.">
+	<link rel="stylesheet" href="/css/syntax.css">
+	<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+	<div id="container">
+		<header>
+			<h1>
+				<a class="brand" href="/">Webstrates</a>
+				<small>A research prototype enabling collaborative editing of websites through DOM manipulations.</small>
+			</h1>
+		</header>
+		<main>
+			<div id="navigation">
+				<ul class="nav nav-list">
+					<li class="home"><a href="/">Home</a></li>
+					<li>
+						<a class="nav-header" href="">Getting started</a>
+						<ul>
+							<!--li><a href="/gettingstarted/motivation.html">Motivation</a></li-->
+							<li><a href="/gettingstarted/installation.html">Installation</a></li>
+							<li><a href="/gettingstarted/hello-world.html">Hello, world</a></li>
+							<li><a href="/userguide/tutorials.html">Tutorials</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-header" href="">User guide</a>
+						<ul>
+							<li><a href="/userguide/api.html">API</a></li>
+							<li>
+								<ul>
+									<li><a href="/userguide/api/events.html">Events</a></li>
+									<li><a href="/userguide/api/transient.html">Transient</a></li>
+									<li><a href="/userguide/api/cookies.html">Cookies</a></li>
+									<li><a href="/userguide/api/assets.html">Assets</a></li>
+									<li><a href="/userguide/api/signaling.html">Signaling</a></li>
+									<li><a href="/userguide/api/messaging.html">Messaging</a></li>
+									<li><a href="/userguide/api/tagging.html">Tagging</a></li>
+									<li><a href="/userguide/api/access-tokens.html">Access Tokens</a></li>
+									<li><a href="/userguide/api/restore-delete.html">Restore/Delete</a></li>
+								</ul>
+							</li>
+							<li><a href="/userguide/http-api.html">HTTP API</a></li>
+							<li><a href="/userguide/server-config.html">Server Config</a></li>
+							<li><a href="/userguide/client-config.html">Client Config</a></li>
+							<li><a href="/userguide/versioning.html">Versioning</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-header" href="">Developer guide</a>
+						<ul>
+							<li><a class="active" href="/developerguide/introduction.html">Introduction</a></li>
+							<li><a href="/developerguide/how-it-works.html">How it works</a></li>
+							<li><a href="/developerguide/creating-a-module.html">Creating a module</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div id="content">
+				<div class="page-header">
+					<h1>Introduction
+						
+					</h1>
+				</div>
+				<div class="box warning">
+	<p><strong>This is the developer's guide</strong> for people interested in helping develop the Webstrates platform, or expand it with functionality for their own use.
+	If you just want to develop applications on top of the platform, this is most likely not what you're looking for.
+	</p>
+</div>
+
+<ul id="markdown-toc">
+  <li><a href="#list-of-modules" id="markdown-toc-list-of-modules">List of Modules</a></li>
+  <li><a href="#system-events" id="markdown-toc-system-events">System Events</a></li>
+</ul>
+
+<p>The Webstrates client code is made using the <a href="https://webpack.github.io/">webpack</a> module bundler.
+As a result, the client code consists of about 30 modules that interact with each other through
+events.</p>
+
+<p>Building the client code around events allows the system to have clear separation of concern while providing extensive expandability by attaching more event listeners to existing events or adding new events altogether.</p>
+
+<p>There are two types of modules, core modules and (non-core) optional modules.
+The core modules are essential for the client to work as they explicitly depend on each other’s events.
+The optional modules, on the other hand, can be disabled without breaking the core system.
+As some optional modules depend on each other, however, disabling an optional module may also break another optional module that depends on it.</p>
+
+<p>As an example, the <code class="highlighter-rouge">coreMutation</code> module (which manages <a href="/developerguide/how-it-works.html#the-mutationobserver-javascript-api">MutationObservers</a>) emits events to the client system whenever changes to the DOM occurs.
+These events are emitted through <code class="highlighter-rouge">coreEvents</code> – the module for managing and dispatching events – and received by <code class="highlighter-rouge">coreOpCreator</code>.
+The <code class="highlighter-rouge">coreOpCreator</code> module is responsible for creating <a href="/developerguide/how-it-works.html#operational-transformations">OT operations</a> and emitting these operations to the system where they will
+finally be picked up by the <code class="highlighter-rouge">coreDatabae</code> module, which submits the operations to the <a href="/developerguide/how-it-works.html#sharedb">ShareDB backend</a>.
+Disabling any of these modules would break the core system.</p>
+
+<p>On the other hand, an optional module like <code class="highlighter-rouge">assets</code> could be disabled, leaving the remaining system intact, only removing the <a href="/userguide/api/assets.html">assets functionality</a> from the client.</p>
+
+<p>All events fired on</p>
+
+<p>Modules can be disabled by removing them from <a href="/userguide/client-config.html#modules">the client configuration</a>’s modules section. As core modules cannot be disabled, they are not
+present in the config’s modules section.</p>
+
+<h2 id="list-of-modules">List of Modules</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Module name</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">coreDatabase</code></td>
+      <td><a href="/developerguide/how-it-works.html#sharedb">ShareDB</a> wrapper/adapter.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">coreEvents</code></td>
+      <td>Event handler. Handles system (inter-modular) events.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">coreJsonML</code></td>
+      <td>Library for converting between <a href="/developerguide/how-it-works.html#jsonml">JsonML</a> and HTML (DOM) through <code class="highlighter-rouge">coreJsonML.toHTML()</code> and <code class="highlighter-rouge">coreJsonML.fromHTML()</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">coreMutation</code></td>
+      <td>Uses <a href="/developerguide/how-it-works.html#the-mutationobserver-javascript-api">MutationObservers</a> to listen for DOM changes and emits these through <code class="highlighter-rouge">coreEvents</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">coreOpApplier</code></td>
+      <td>Applies operations received through <code class="highlighter-rouge">coreEvents</code> to the DOM. These events are usually emitted by <code class="highlighter-rouge">coreDatabase</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">coreOpCreator</code></td>
+      <td>Creates operations based on mutations received from <code class="highlighter-rouge">coreMutation</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">corePathTree</code></td>
+      <td>Library for creating and attaching PathTrees to DOM nodes.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">corePopulator</code></td>
+      <td>Populates the DOM with the webstrate once it has been retrieved by <code class="highlighter-rouge">coreDatabase</code>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">coreUtils</code></td>
+      <td>Library containing a variety of useful functions for creating random strings, cloning objects, etc.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">coreWebsocket</code></td>
+      <td>Websocket wrapper that allows other modules access to the underlying websocket.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">assets</code></td>
+      <td>Provides userland asset functionality (e.g. <code class="highlighter-rouge">webstrate.assets</code> and the userland <code class="highlighter-rouge">asset</code> event).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">clientManager</code></td>
+      <td>Provides userland client functionality (e.g. <code class="highlighter-rouge">webstrate.clients</code> and the userland <code class="highlighter-rouge">clientJoin</code> and <code class="highlighter-rouge">clientPart</code> events).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">connectionEvents</code></td>
+      <td>Provides connection events, system and in userland (i.e. <code class="highlighter-rouge">connect</code>, <code class="highlighter-rouge">disconnect</code>, <code class="highlighter-rouge">reconect</code>).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">cookies</code></td>
+      <td>Provides userland cookie functionality (i.e. <code class="highlighter-rouge">webstrate.cookies</code> and the userland <code class="highlighter-rouge">cooieUpdateHere</code> and <code class="highlighter-rouge">cookieUpdateAnywhere</code> events).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+      <td>Providues userland DOM events (e.g. <code class="highlighter-rouge">attributeChanged</code>, <code class="highlighter-rouge">nodeAdded</code>, <code class="highlighter-rouge">nodeRemoved*</code>, <code class="highlighter-rouge">insertText</code>, etc.).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">globalObject</code></td>
+      <td>Creates the global object (<code class="highlighter-rouge">window.webstrate</code>) which other modules often use to expose their own functionality in userland.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">keepAlive</code></td>
+      <td>Simply sends keep alive messages over the websocket to ensure it doesn’t terminate prematurely.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">loadedEvent</code></td>
+      <td>Creates and fires the userland event <code class="highlighter-rouge">loaded</code>, as well as the <code class="highlighter-rouge">loadedTriggered</code> system event.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">messages</code></td>
+      <td>Provides userland messaging functionality (e.g. <code class="highlighter-rouge">webstrate.messages</code> and the userland event <code class="highlighter-rouge">messageReceived</code>).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">nodeObjects</code></td>
+      <td>Creates the <code class="highlighter-rouge">webstrate</code> object on every node in the DOM, allowing users to attach Node-specific event listeners (e.g. <code class="highlighter-rouge">attributeChanged</code>, <code class="highlighter-rouge">nodeAdded*</code>, etc.).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">permissions</code></td>
+      <td>Provides users with permissions functionality (e.g. <code class="highlighter-rouge">webstrate.permissions</code> and the system event <code class="highlighter-rouge">globalPermissions</code> and <code class="highlighter-rouge">userPermissions</code>). Note that disabling this module will not allow unauthorized access to restricted webstrates.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">signalStream</code></td>
+      <td>Provides userland signal streaming functionality.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">signaling</code></td>
+      <td>Provides userland signaling functionality e.g. <code class="highlighter-rouge">Node.signal</code> as well as the <code class="highlighter-rouge">signal</code> event on nodes and the global object).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">tagging</code></td>
+      <td>Provides userland tagging functionality (e.g. <code class="highlighter-rouge">webstrate.tag</code> as well as the <code class="highlighter-rouge">tag</code> event on the global object).</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">transclusionEvent</code></td>
+      <td>Creates and fires the userland event <code class="highlighter-rouge">transcluded</code> when a webstrate has been transcluded.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">userObject</code></td>
+      <td>Creates the user object (i.e. <code class="highlighter-rouge">webstrate.user</code>) containing user information, and upon which other modules depend (like <code class="highlighter-rouge">cookies</code>).</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>See <a href="/developerguide/creating-a-module.html">Creating a module</a> to learn how to create a module.</p>
+
+<h2 id="system-events">System Events</h2>
+
+<p>Below is a list of all system (i.e. inter-modular) events created by the Webstrates client system.
+Any module can listen for and react to these events.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event name</th>
+      <th>Emitted by</th>
+      <th>Used by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">asset</code></td>
+      <td><code class="highlighter-rouge">assets</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">clientJoin</code></td>
+      <td><code class="highlighter-rouge">clientManager</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">clientPart</code></td>
+      <td><code class="highlighter-rouge">clientManager</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">clientsReceived</code></td>
+      <td><code class="highlighter-rouge">clientManager</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">connect</code></td>
+      <td><code class="highlighter-rouge">connectionEvents</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">disconnect</code></td>
+      <td><code class="highlighter-rouge">connectionEvents</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">reconnect</code></td>
+      <td><code class="highlighter-rouge">connectionEvents</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">createdOps</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code></td>
+      <td><code class="highlighter-rouge">permissions</code>, <code class="highlighter-rouge">tagging</code>, <code class="highlighter-rouge">coreDatabase</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">DOMAttributeRemoved</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code>, <code class="highlighter-rouge">coreOpApplier</code></td>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">DOMAttributeSet</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code>, <code class="highlighter-rouge">coreOpApplier</code></td>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">DOMAttributeTextDeletion</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code>, <code class="highlighter-rouge">coreOpApplier</code></td>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">DOMAttributeTextInsertion</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code>, <code class="highlighter-rouge">coreOpApplier</code></td>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">DOMNodeDeleted</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code>, <code class="highlighter-rouge">coreOpApplier</code></td>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">DOMNodeInserted</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code>, <code class="highlighter-rouge">coreOpApplier</code></td>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">DOMTextNodeDeletion</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code>, <code class="highlighter-rouge">coreOpApplier</code></td>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">DOMTextNodeInsertion</code></td>
+      <td><code class="highlighter-rouge">coreOpCreator</code>, <code class="highlighter-rouge">coreOpApplier</code></td>
+      <td><code class="highlighter-rouge">domEvents</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">globalPermissions</code></td>
+      <td><code class="highlighter-rouge">permissions</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">loadedTriggered</code></td>
+      <td><code class="highlighter-rouge">loadedEvent</code></td>
+      <td><code class="highlighter-rouge">clientManager</code>, <code class="highlighter-rouge">transclusionEvent</code>, <code class="highlighter-rouge">messages</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">messageReceived</code></td>
+      <td><code class="highlighter-rouge">messages</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">messageSent</code></td>
+      <td><code class="highlighter-rouge">messages</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">mutation</code></td>
+      <td><code class="highlighter-rouge">messages</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">populated</code></td>
+      <td><code class="highlighter-rouge">corePopulator</code></td>
+      <td><code class="highlighter-rouge">loadedEvent</code>, <code class="highlighter-rouge">nodeObjects</code>, <code class="highlighter-rouge">signalStream</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">receivedDocument</code></td>
+      <td><code class="highlighter-rouge">coreDatabase</code></td>
+      <td><code class="highlighter-rouge">tagging</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">receivedOps</code></td>
+      <td><code class="highlighter-rouge">coreDatabase</code></td>
+      <td><code class="highlighter-rouge">copreOpApplier</code>, <code class="highlighter-rouge">permissions</code>, <code class="highlighter-rouge">tagging</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">receivedSignal</code></td>
+      <td><code class="highlighter-rouge">signaling</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">receivedTags</code></td>
+      <td><code class="highlighter-rouge">tagging</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">userObjectAdded</code></td>
+      <td><code class="highlighter-rouge">userObject</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">userPermissions</code></td>
+      <td><code class="highlighter-rouge">permissions</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">webstrateObjectAdded</code></td>
+      <td><code class="highlighter-rouge">nodeObjects</code></td>
+      <td><code class="highlighter-rouge">domEvents</code>, <code class="highlighter-rouge">signaling</code>, <code class="highlighter-rouge">signalStream</code>, <code class="highlighter-rouge">transclusionEvent</code></td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">webstrateObjectsAdded</code></td>
+      <td><code class="highlighter-rouge">nodeObjects</code></td>
+      <td><code class="highlighter-rouge">domEvents</code>, <code class="highlighter-rouge">signaling</code>, <code class="highlighter-rouge">signalStream</code>, <code class="highlighter-rouge">transclusionEvent</code></td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+				<div>
+
+					<div id="navigation"></div>
+					<div id="disqus">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//' + 'webstrates' + '.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+	function waitForIframe(callback) {
+		var iframe = 	document.querySelector('iframe[id^=dsq]');
+		if (iframe) return callback(iframe);
+		setTimeout(waitForIframe, 0, callback);
+	}
+	waitForIframe(function(iframe) {
+		var scale = 0.88, width = 1/scale * 100, offset = (width - 100) / 2;
+		iframe.setAttribute("style", `transform:scale(${scale});width:${width}%;margin-left:-${offset}%;`);
+	});
+})();
+</script>
+					</div>
+
+				</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-104382751-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+			</div>
+		</main>
+		<footer>
+			Documentation for <a href="https://github.com/Webstrates/Webstrates">Webstrates</a>
+		</footer>
+	</div>
+</body>
+</html>

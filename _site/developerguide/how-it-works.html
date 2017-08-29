@@ -1,0 +1,229 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>How it works | Webstrates</title>
+	<meta name="description" content="A research prototype enabling collaborative editing of websites through DOM manipulations.">
+	<link rel="stylesheet" href="/css/syntax.css">
+	<link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+	<div id="container">
+		<header>
+			<h1>
+				<a class="brand" href="/">Webstrates</a>
+				<small>A research prototype enabling collaborative editing of websites through DOM manipulations.</small>
+			</h1>
+		</header>
+		<main>
+			<div id="navigation">
+				<ul class="nav nav-list">
+					<li class="home"><a href="/">Home</a></li>
+					<li>
+						<a class="nav-header" href="">Getting started</a>
+						<ul>
+							<!--li><a href="/gettingstarted/motivation.html">Motivation</a></li-->
+							<li><a href="/gettingstarted/installation.html">Installation</a></li>
+							<li><a href="/gettingstarted/hello-world.html">Hello, world</a></li>
+							<li><a href="/userguide/tutorials.html">Tutorials</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-header" href="">User guide</a>
+						<ul>
+							<li><a href="/userguide/api.html">API</a></li>
+							<li>
+								<ul>
+									<li><a href="/userguide/api/events.html">Events</a></li>
+									<li><a href="/userguide/api/transient.html">Transient</a></li>
+									<li><a href="/userguide/api/cookies.html">Cookies</a></li>
+									<li><a href="/userguide/api/assets.html">Assets</a></li>
+									<li><a href="/userguide/api/signaling.html">Signaling</a></li>
+									<li><a href="/userguide/api/messaging.html">Messaging</a></li>
+									<li><a href="/userguide/api/tagging.html">Tagging</a></li>
+									<li><a href="/userguide/api/access-tokens.html">Access Tokens</a></li>
+									<li><a href="/userguide/api/restore-delete.html">Restore/Delete</a></li>
+								</ul>
+							</li>
+							<li><a href="/userguide/http-api.html">HTTP API</a></li>
+							<li><a href="/userguide/server-config.html">Server Config</a></li>
+							<li><a href="/userguide/client-config.html">Client Config</a></li>
+							<li><a href="/userguide/versioning.html">Versioning</a></li>
+						</ul>
+					</li>
+					<li>
+						<a class="nav-header" href="">Developer guide</a>
+						<ul>
+							<li><a href="/developerguide/introduction.html">Introduction</a></li>
+							<li><a class="active" href="/developerguide/how-it-works.html">How it works</a></li>
+							<li><a href="/developerguide/creating-a-module.html">Creating a module</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div id="content">
+				<div class="page-header">
+					<h1>How it works
+						
+					</h1>
+				</div>
+				<ul id="markdown-toc">
+  <li><a href="#jsonml" id="markdown-toc-jsonml">JsonML</a></li>
+  <li><a href="#the-mutationobserver-javascript-api" id="markdown-toc-the-mutationobserver-javascript-api">The <code class="highlighter-rouge">MutationObserver</code> JavaScript API</a></li>
+  <li><a href="#operational-transformations" id="markdown-toc-operational-transformations">Operational Transformations</a></li>
+  <li><a href="#sharedb" id="markdown-toc-sharedb">ShareDB</a></li>
+</ul>
+
+<p>Webstrates’ API provides a variety of functionality, but the main functionality that Webstrates
+resolves around is DOM synchronization.</p>
+
+<p>Webstrates’ DOM synchronized is built around 4 components, namely <a href="http://www.jsonml.org">JsonML</a>,
+the <a href="https://developer.mozilla.org/en/docs/Web/API/MutationObserver"><code class="highlighter-rouge">MutationObserver</code> JavaScript API</a>,
+Operational Transformations, and <a href="https://github.com/share/sharedb">ShareDB</a>.</p>
+
+<h2 id="jsonml">JsonML</h2>
+<p>JsonML (or JSON Markup Language) is language for representing XML-based markup as JSON. For
+instance, the following HTML:</p>
+
+<div class="language-html highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li</span> <span class="na">style=</span><span class="s">"color: red"</span><span class="nt">&gt;</span>First Item<span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/"</span> <span class="na">style=</span><span class="s">"color: green"</span><span class="nt">&gt;</span>Second Item<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre>
+</div>
+
+<p>Could in JsonML look like:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="s2">"ul"</span><span class="err">,</span><span class="w">
+</span><span class="p">{}</span><span class="err">,</span><span class="w">
+</span><span class="p">[</span><span class="w">
+  </span><span class="s2">"li"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"style"</span><span class="p">:</span><span class="w"> </span><span class="s2">"color: red"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"First Item"</span><span class="w">
+</span><span class="p">]</span><span class="err">,</span><span class="w">
+</span><span class="p">[</span><span class="w">
+  </span><span class="s2">"li"</span><span class="p">,</span><span class="w">
+  </span><span class="p">{},</span><span class="w">
+  </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"a"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"href"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/"</span><span class="p">,</span><span class="w"> </span><span class="nt">"style"</span><span class="p">:</span><span class="w"> </span><span class="s2">"color: green"</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="s2">"Second Item"</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>All webstrates are persisted as JsonML and are converted back to HTML before being presented to the
+user in the browser.</p>
+
+<h2 id="the-mutationobserver-javascript-api">The <code class="highlighter-rouge">MutationObserver</code> JavaScript API</h2>
+<p>The <a href="https://developer.mozilla.org/en/docs/Web/API/MutationObserver"><code class="highlighter-rouge">MutationObserver</code> JavaScript API</a>
+provides a way for developers to react to changes in the DOM. Every change to the DOM (except
+changes to input fields and textareas as several other mechanism for detecting changes to these
+elements exist) triggers a user-defined callback function, allowing developers to track changes
+made by other parts of a web application.</p>
+
+<p>In Webstrates, we listen for these changes and calculate the differences (or “deltas”) between the
+previous DOM state and the new DOM state after the mutation has occurred. We express these
+differences as Operational Transformation operations.</p>
+
+<h2 id="operational-transformations">Operational Transformations</h2>
+
+<p>Operational Transformations (OT) is a standard for expressing differences between many types of
+documents. With Webstrates, we use the <a href="https://github.com/ottypes/json0">json0</a> standard to
+represent our HTML differences. These differences are called operations and are intended to be
+applied to a document to take it from one state to another, like taking a JsonML representation of a
+webstrate prior to a mutation to a JsonML representation of the same webstrate after the mutation
+without needing to calculate (and transmit) an entirely new JsonML representation of the DOM.</p>
+
+<p>For instance, if we’re looking at the HTML document from before and we’d like to change the text
+color of “Second Item” by replacing <code class="highlighter-rouge">green</code> with <code class="highlighter-rouge">blue</code> in the <code class="highlighter-rouge">style</code> attribute, this changes (or
+operations) could look something like:</p>
+
+<div class="language-json highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"sd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"green"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"p"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"style"</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nt">"si"</span><span class="p">:</span><span class="w"> </span><span class="s2">"blue"</span><span class="p">,</span><span class="w">
+    </span><span class="nt">"p"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s2">"style"</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>The first operation here tells us to perform a string deletion (<code class="highlighter-rouge">sd</code>) from the path at
+<code class="highlighter-rouge">[3, 2, 1, "style", 7]</code>, meaning the 3rd child, then that child’s 2nd child, that child’s 1st child,
+and the <code class="highlighter-rouge">style</code> property of that object. From that object, we delete the word <code class="highlighter-rouge">green</code> starting at
+7th characters in. (i.e. after <code class="highlighter-rouge">color: </code>).</p>
+
+<p>The second operation is very similar, but this is instead a string insertion (<code class="highlighter-rouge">si</code>) of <code class="highlighter-rouge">blue</code> again
+starting at the 7th character of the property’s value.</p>
+
+<p>However, just keeping a local JsonML representation of an HTML file up-to-date doesn’t provide much
+collaborability. For that, we need ShareDB.</p>
+
+<h2 id="sharedb">ShareDB</h2>
+
+<p><a href="https://github.com/share/sharedb">ShareDB</a> is a real-time, fully-versioned JSON database operated
+on with <code class="highlighter-rouge">json0</code> type operational transformations.</p>
+
+<p>For Webstrates, we can therefore use it to store our JsonML documents and submit any changes
+detected in the DOM by our <code class="highlighter-rouge">MutationObserver</code> through OT operations. ShareDB will afterwards make
+sure to keep the JsonML representations in the clients consistent.</p>
+
+<p>Just as the <code class="highlighter-rouge">MutationObserver</code> JavaScript API provides ways of detecting changes to the DOM, ShareDB
+also provides ways of detecting changes to the JsonML document. In Webstrates, we listen for these
+changes (also represented as OT operations) and convert them to their equivalent DOM changes, thus
+providing us with a synchronized, consistent two-way binding between the DOM and ShareDB’s shared
+JsonML representation of the DOM across clients.</p>
+
+<p>For a more in-depth understanding of how Webstrates work, check out the rest of the Developer guide,
+as well as the <a href="https://github.com/Webstrates/Webstrates">source code for Webstrates</a> and
+<a href="https://github.com/share/sharedb">the source code for ShareDB</a>, both readily available on GitHub.</p>
+
+
+
+				<div>
+
+					<div id="navigation"></div>
+					<div id="disqus">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+(function() {
+	var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	dsq.src = '//' + 'webstrates' + '.disqus.com/embed.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+
+	function waitForIframe(callback) {
+		var iframe = 	document.querySelector('iframe[id^=dsq]');
+		if (iframe) return callback(iframe);
+		setTimeout(waitForIframe, 0, callback);
+	}
+	waitForIframe(function(iframe) {
+		var scale = 0.88, width = 1/scale * 100, offset = (width - 100) / 2;
+		iframe.setAttribute("style", `transform:scale(${scale});width:${width}%;margin-left:-${offset}%;`);
+	});
+})();
+</script>
+					</div>
+
+				</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-104382751-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+			</div>
+		</main>
+		<footer>
+			Documentation for <a href="https://github.com/Webstrates/Webstrates">Webstrates</a>
+		</footer>
+	</div>
+</body>
+</html>
