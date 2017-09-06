@@ -109,7 +109,7 @@ coreEvents.addEventListener('webstrateObjectAdded', (node, eventObject) => {
   </p>
   <p>
     Any event handler with <code>IMMEDIATE</code> priority gets executed straight away in the same execution.
-    The use of the <code>IMMEDIATE</code> priority should be limited as much as possible, as doing too much work in the same task can cause the browser to become unresponsive.
+    The use of the <code>IMMEDIATE</code> priority should be limited as much as possible, as doing too much work in the same task can cause the browser to become briefly unresponsive.
     However, in this case, we need to run our code immediately, as otherwise clients may attempt to add an event listener for the <code>smash</code> event before it has been created.
   </p>
   <p>

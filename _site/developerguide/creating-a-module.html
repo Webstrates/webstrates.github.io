@@ -167,14 +167,14 @@ Note that the event names differ slightly; the former is plural (Objects) and th
   <h3>What does <code>coreEvents.PRIORITY.IMMEDIATE</code> mean?</h3>
   <p>
     The second argument to <code>coreEvents.addEventListener()</code> is a priority, which determines the order in which the event handlers are triggered.
-    This can be useful if, for instance, for one event handler do have finished its job before another event handler can perform its own job.
+    This can be useful if, for instance, one event handler has to have finished its job before another event handler can perform its own job.
   </p>
   <p>
     There's a total of 5 priorities, namely <code>IMMEDIATE</code>, <code>HIGH</code>, <code>MEDIUM</code>, <code>LOW</code>, and <code>LAST</code>.
   </p>
   <p>
     Any event handler with <code>IMMEDIATE</code> priority gets executed straight away in the same execution.
-    The use of the <code>IMMEDIATE</code> priority should be limited as much as possible, as doing too much work in the same task can cause the browser to become unresponsive.
+    The use of the <code>IMMEDIATE</code> priority should be limited as much as possible, as doing too much work in the same task can cause the browser to become briefly unresponsive.
     However, in this case, we need to run our code immediately, as otherwise clients may attempt to add an event listener for the <code>smash</code> event before it has been created.
   </p>
   <p>

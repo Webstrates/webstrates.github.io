@@ -79,7 +79,7 @@ if (!location.hash) {
 }
 webstrateId = location.hash.substring(1);
 
-const serverAddress = "hikaru.cs.au.dk";
+const serverAddress = "demo.webstrates.net";
 
 urlField.innerHTML = `<a href="https://${serverAddress}/${webstrateId}/">` +
 	`${serverAddress}/${webstrateId}/</a>`;
