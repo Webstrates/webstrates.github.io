@@ -66,9 +66,9 @@ the page to a friend and start developing your own collaborative web application
 
 <script>
 const urlField = document.getElementById('url');
-const iframeContainer = document.getElementById('iframeContainer');
-const iframe1 = document.getElementById('iframe1');
-const iframe2 = document.getElementById('iframe2');
+const iframeContainerEl = document.getElementById('iframeContainer');
+const iframe1El = document.getElementById('iframe1');
+const iframe2El = document.getElementById('iframe2');
 
 let webstrateId;
 if (!location.hash) {
@@ -85,14 +85,14 @@ urlField.innerHTML = `<a href="https://${serverAddress}/${webstrateId}/">` +
 	`${serverAddress}/${webstrateId}/</a>`;
 
 if (location.hash) {
-	iframe1.src = `https://${serverAddress}/doc-prototype/release?copy=${webstrateId}`;
+	iframe1El.src = `https://${serverAddress}/doc-prototype/release?copy=${webstrateId}`;
 } else {
-	iframe1.src = `https://${serverAddress}/doc-prototype/${webstrateId}`;
+	iframe1El.src = `https://${serverAddress}/doc-prototype/${webstrateId}`;
 }
 
-setTimeout(() => iframe2.src = `https://${serverAddress}/${webstrateId}/`, 300);
+setTimeout(() => iframe2El.src = `https://${serverAddress}/${webstrateId}/`, 300);
 
-iframe2.onload = () => {
-	iframeContainer.classList.add('fadein');
+iframe2El.onload = () => {
+	iframeContainerEl.classList.add('fadein');
 };
 </script>
