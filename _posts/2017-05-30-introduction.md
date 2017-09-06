@@ -55,7 +55,7 @@ present in the config's modules section.
 | `coreWebsocket`     | Websocket wrapper that allows other modules access to the underlying websocket.
 | `assets`            | Provides userland asset functionality (e.g. `webstrate.assets` and the userland `asset` event).
 | `clientManager`     | Provides userland client functionality (e.g. `webstrate.clients` and the userland `clientJoin` and `clientPart` events).
-| `connectionEvents`  | Provides connection events, system and in userland (i.e. `connect`, `disconnect`, `reconect`).
+| `connectionEvents`  | Provides connection events, system and in userland (`disconnect` and `reconect`).
 | `cookies`           | Provides userland cookie functionality (i.e. `webstrate.cookies` and the userland `cooieUpdateHere` and `cookieUpdateAnywhere` events).
 | `domEvents`         | Providues userland DOM events (e.g. `attributeChanged`, `nodeAdded`, `nodeRemoved*`, `insertText`, etc.).
 | `globalObject`      | Creates the global object (`window.webstrate`) which other modules often use to expose their own functionality in userland.
@@ -85,7 +85,6 @@ Any module can listen for and react to these events.
 | `clientJoin`                | `clientManager`                  |
 | `clientPart`                | `clientManager`                  |
 | `clientsReceived`           | `clientManager`                  |
-| `connect`                   | `connectionEvents`               |
 | `disconnect`                | `connectionEvents`               |
 | `reconnect`                 | `connectionEvents`               |
 | `createdOps`                | `coreOpCreator`                  | `permissions`, `tagging`, `coreDatabase`
