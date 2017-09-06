@@ -1,1 +1,0 @@
-../_posts/2017-08-15-versioning.md

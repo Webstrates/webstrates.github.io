@@ -1,1 +1,0 @@
-../_posts/2017-07-04-hello-world.md
