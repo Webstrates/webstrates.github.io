@@ -6,8 +6,13 @@ date: 2017-07-11 18:35:13
 disqus: 1
 ---
 
+* TOC
+{:toc}
+
 Messaging allows users to send cross-webstrate messages between users, even when a user isn't
 online. It's basically emails for Webstrates.
+
+## Sending messages
 
 To send a message to a user (or several), call
 
@@ -33,11 +38,14 @@ are therefore both legal.
 
 Only logged in users can send and receive messages.
 
+## Receiving messages
+
 Whenever a message is sent, it'll be delivered to all connected clients as well as saved on the
-server. Listening for messages can be done using the `message` event on the global webstrate object.
+server. Listening for messages can be done using the `messageReceived` event on the global webstrate
+object.
 
 ```javascript
-webstrate.on('message', function(message, senderId, messageId) {
+webstrate.on('messageReceived', function(message, senderId, messageId) {
   // message being the message object (e.g. "Hello, world!"), senderId being the sending
   // userId (e.g. "kbadk:github", never "B1bvxz0DNZ"), and messageId a random string
   // assigned to the message by the server (e.g. "rkwJJCP4Z").
@@ -50,6 +58,8 @@ getting triggered, until they expire. Messages automatically expire after 30 day
 
 Additionally, all messages are accessible in `webstrate.messages`.
 
+## Deleting messages
+
 To prevent the same messages from getting triggered on every load, they can be deleted, either by
 deleting all messages:
 
@@ -61,6 +71,14 @@ Or by deleting single messages by messageId:
 
 ```javascript
 webstrate.deleteMessage(messageId);
+```
+
+It's also possible to listen for deletions using the `messageDeleted` event.
+
+```javascript
+webstrate.on('messageDeleted', function(messageId) {
+  // a message has been deleted.
+});
 ```
 
 <div class="info box">

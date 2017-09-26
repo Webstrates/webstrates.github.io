@@ -31,7 +31,7 @@ To install:
 (at least update the [cookie secret](/userguide/config.html#cookie)!)
 - Run the following from the root directory:
 ```
-npm install # Installs required NPM packages
+npm install --production # Installs required NPM packages
 npm run build # Uses webpack to generate the client application code
 npm start # Starts the Webstrates server
 ```
@@ -41,6 +41,11 @@ A local Webstrates server should now be running at
 basic authentication (see
 [Server Config](/userguide/server-config.html#server-level-basic-authentication)). To log in, use
 "web" as username and "strate" as password.
+
+The `--production` flag prevents development/testing packages from being installed. This speeds up
+the installation and saves some space as  [puppeteer](https://www.npmjs.com/package/puppeteer)
+(about 170 MB) won't be installed. It does, however, mean you won't be able to run the functional
+tests.
 
 ## Advanced installation
 
