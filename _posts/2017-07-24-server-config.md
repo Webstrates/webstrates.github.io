@@ -71,11 +71,16 @@ To enable basic HTTP authentication on the Webstrates server, add the following 
 }
 ```
 
-### Per-webstrate permissions
-It is possible to enable per webstrate access rights using [GitHub](https://github.com) as authentication provider.
-This requires [registering an OAuth application with GitHub](https://github.com/settings/applications/new). Afterwards, access to a specific webstrate may be restricted to a specific set of GitHub users.
+### Read-write and read-only permissions per webstrate
+To setup read only permissions to specific webstrates or users, OAuth is required. We recommend using [GitHub](https://github.com) as authentication provider as Webstrates already ships with the required NPM packages.
 
-Add the following to your `config.json`:
+To get started, [register an OAuth application with GitHub](https://github.com/settings/applications/new).
+
+On the register page, _Homepage URL_ should be set to `http://localhost:7007/`, assuming the system is running locally on port 7007 (as per default). If other users need to be able to use the OAuth authentication system as well, the _Homepage URL_ should be set to the external address.
+
+_Auhtorization callback URL_ should be set to `http://localhost:7007/auth/github/callback`.
+
+After clicking _Register Application_, you'll be presented with a _Client ID_ and _Client Secret_, which needs to be added (along with other information) to your server `config.json` file:
 
 ```json
 "auth": {
@@ -92,7 +97,13 @@ Add the following to your `config.json`:
 }
 ```
 
-Access rights are added to a webstrate as a `data-auth` attribute on the `<html>` tag:
+### Logging in with OAuth/GitHub
+
+To log in to the webstrates server, navigate to [http://localhost:7007/auth/github](http://localhost:7007/auth/github), sign in and authorize. After successful login, you'll be redirected to [http://localhost:7007/frontpage](http://localhost:7007/frontpage). To confirm you've actually been logged in, writing `webstrate.user` in the browser console should yield a user object with your username (among other information).
+
+### Managing permissions
+
+Access rights are added to a webstrate as a `data-auth` attribute on the `<html>` tag in JSON format:
 
 ```html
 <html data-auth='[{"username": "cklokmose", "provider": "github", "permissions": "rw"},
@@ -101,11 +112,7 @@ Access rights are added to a webstrate as a `data-auth` attribute on the `<html>
 </html>
 ```
 
-The above example provides the user with GitHub username *cklokmose* permissions to read and write (`rw`), while anonymous users only have read (`r`) access.
-
-Users can log in by accessing `http://<hostname>/auth/github`.
-
-In the future, more authentication providers will be supported.
+The above example provides the user with GitHub username _cklokmose_ permissions to read and write (`rw`), while users who are not logged in (`anonymous`) only have read (`r`) access.
 
 ### Default permissions
 
