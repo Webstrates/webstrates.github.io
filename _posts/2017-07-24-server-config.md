@@ -23,9 +23,10 @@ that gets copied over to `config.json` if no `config.json` file is present when 
 | `db`               | MongoDB connection url.                    | `mongodb://127.0.0.1:27017/webstrate` |
 | `maxAge`           | How long static files should be cached (not assets). Defined in milliseconds or using [ms](https://www.npmjs.com/package/ms) format. | `1d` (24 hours) |
 | `rateLimit`        | [Configuration object for rate limiting](#rate-limiting) | See [`config-sample.json`](https://github.com/Webstrates/Webstrates/blob/master/config-sample.json). |
-| `basicdAuth`       | [Configuration object for basic auth](#server-level-basic-authentication) | See [`config-sample.json`](https://github.com/Webstrates/Webstrates/blob/master/config-sample.json). |
+| `basicAuth`       | [Configuration object for basic auth](#server-level-basic-authentication) | See [`config-sample.json`](https://github.com/Webstrates/Webstrates/blob/master/config-sample.json). |
 | `pubsub`           | Reddis connection url (multithreading).    | unset                                 |
 | `threads`          | Number of threads to use (multihtreading). | unset                                 |
+| `niceWebstrateIds` | Whether to use random strings as webstrateIds or more human readable names. | `false` |
 |--------------------|--------------------------------------------|---------------------------------------|
 
 ## Rate limiting
@@ -185,3 +186,14 @@ it to become autotagged on next action (default 3600 seconds (60 minutes)).
 
 Tags are postfixed with the current date time, so a tag might look something like:
 "Session of Thu Jun 29 2017 14:03:30 GMT+0200 (CEST)".
+
+## WebstrateIds and `niceWebstrateId`
+
+When navigating to `/new` to create a new webstrate, when using `?copy` to copy a new webstrate, or
+when prototyping a new webstrate, Webstrate automatically generates a random webstrateId, unless one
+has been specified.
+
+By default, this webstrateId will be a random string betweeen 7-14 characters using
+`A-Z, a-z, 0-9, _-`, such as `S1KeySFzM`. When `niceWebstrateId` is set to `true`, webstrateIds
+that are easier to share will instead be used. These will be on the form
+\<verb\>-\<animal\>-\<number\>, e.g. `old-kangaroo-26`.

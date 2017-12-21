@@ -28,7 +28,7 @@ To install:
 [download a ZIP of the source code](https://github.com/Webstrates/Webstrates/archive/master.zip) and unzip it.
 - Navigate to the repository root.
 - Copy `config-sample.json` to `config.json` and modify it
-(at least update the [cookie secret](/userguide/config.html#cookie)!)
+(at least update the [cookie secret](/userguide/server-config.html#cookie)!)
 - Run the following from the root directory:
 ```
 npm install --production # Installs required NPM packages
