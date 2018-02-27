@@ -21,12 +21,13 @@ that gets copied over to `config.json` if no `config.json` file is present when 
 | `listeningAddress` | IP address to listen on.                   | `0.0.0.0` (all addresses)             |
 | `listeningPort`    | Port to listen on.                         | `7777`                                |
 | `db`               | MongoDB connection url.                    | `mongodb://127.0.0.1:27017/webstrate` |
+| `maxAssetSize`     | Max file size for assets in MB.            | `20`                                  |
 | `maxAge`           | How long static files should be cached (not assets). Defined in milliseconds or using [ms](https://www.npmjs.com/package/ms) format. | `1d` (24 hours) |
 | `rateLimit`        | [Configuration object for rate limiting](#rate-limiting) | See [`config-sample.json`](https://github.com/Webstrates/Webstrates/blob/master/config-sample.json). |
 | `basicAuth`       | [Configuration object for basic auth](#server-level-basic-authentication) | See [`config-sample.json`](https://github.com/Webstrates/Webstrates/blob/master/config-sample.json). |
 | `pubsub`           | Reddis connection url (multithreading).    | unset                                 |
 | `threads`          | Number of threads to use (multihtreading). | unset                                 |
-| `niceWebstrateIds` | Whether to use random strings as webstrateIds or more human readable names. | `false` |
+| `niceWebstrateIds` | Whether to use random strings as webstrateIds or more human readable random names. | `false` |
 |--------------------|--------------------------------------------|---------------------------------------|
 
 ## Rate limiting
