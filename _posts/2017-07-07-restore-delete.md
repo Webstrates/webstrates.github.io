@@ -11,9 +11,9 @@ disqus: 1
 
 ## Restoring a webstrate
 
-Webstrates has very fine-grained versioning control, saving every key stroke in the
-[operations history](/userguide/operations-history.html). Restoring a document to a previous version
-can be done either through the [HTTP API](/userguide/http-api.html#restoring-a-webstrate):
+Webstrates has fine-grained [versioning control](/userguide/versioning.html), saving every keystroke
+in the operations history. Restoring a document to a previous version can be done either through the
+[HTTP API](/userguide/http-api.html#restoring-a-webstrate):
 
 * GET on `http://<hostname>/<webstrateId>?restore=<versionOrTag>` restores the document to look like
 it did in version or [tag](/userguide/api/tagging.html) `<versionOrTag>` and redirects the user to
@@ -39,8 +39,8 @@ webstrate.restore(versionOrTag, function(error, newVersion) {
 actually reverted, rather appended to. A bunch of operations is applied to the document to make the
 document identical to what it was at the requested version.
 
-To find out more about why and it works, check out the
-[Operations History](/userguide/operations-history.html#restoring-a-document) page.
+To find out more about why and how it works, check out the
+[Versioning](/userguide/versioning.html#restoring-a-document) page.
 
 ## Deleting a webstrate
 

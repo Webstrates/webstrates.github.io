@@ -2,7 +2,7 @@
 layout: page
 title: "Versioning"
 category: userguide
-date: 2017-08-15 12:44:03
+date: 2017-07-25 02:14:03
 disqus: 1
 ---
 
@@ -55,17 +55,17 @@ Inspecting the operations history will shows us something similar to:
 ```
 
 <div class="info box">
-	<p>
-		<strong>What are those <code>__wid</code>s?</strong> To keep better track of DOM, Webstrates
-		adds unique IDs to each DOM elements. These are usually not visible in the DOM, even though they
-		exist in the JsonML representation. While it should rarely be necessary for users to access
-		the <code>__wid</code> of an element, it is available as <code>id</code> on all non-transient
-		DOM nodes' webstrate objects (i.e. <code>DOMNode.webstrate.id</code>).
-	</p>
-	<p>
-		If you want to know more about JsonML, check out
-		<a href="/developerguide/how-it-works.html#jsonml">How it works</a> in the Developer guide.
-	</p>
+  <p>
+    <strong>What are those <code>__wid</code>s?</strong> To keep better track of DOM, Webstrates
+    adds unique IDs to each DOM elements. These are usually not visible in the DOM, even though they
+    exist in the JsonML representation. While it should rarely be necessary for users to access
+    the <code>__wid</code> of an element, it is available as <code>id</code> on all non-transient
+    DOM nodes' webstrate objects (i.e. <code>DOMNode.webstrate.id</code>).
+  </p>
+  <p>
+    If you want to know more about JsonML, check out
+    <a href="/developerguide/how-it-works.html#jsonml">How it works</a> in the Developer guide.
+  </p>
 </div>
 
 At this point, we will be at version 0 (evident by the `v` property on the object). The version
@@ -138,7 +138,7 @@ the desired version is calculated using the
 as an array of operations. These operations are then applied to the document.
 
 Continuing from the example above,
-[restoring](/userguide/api/restore-delete.html#restoring-a-webstrate) to version 8 -- the version
+[restoring](/userguide/api/restore-delete.html#restoring-a-webstrate) to version 7 -- the version
 right after having finished writing "Hello" -- will add just two new operation to the history:
 
 ```json
@@ -149,14 +149,34 @@ right after having finished writing "Hello" -- will add just two new operation t
 ]
 ```
 
-The first operation being a dummy operation (`noop` meaning no operation) just to indicate that the
-document was restored.
+The first operation being a dummy operation (`noop` meaning "no operation") just to indicate that
+the document was restored.
 
 The second operation here has two parts, first a list deletion (`ld`) of the previous string
-("Hello, World!"), followed by a list insertion of the desired string "Hello".
+("Hello, World!"), followed by a list insertion (`li`) of the desired string "Hello".
 
 After the restoration, the document will now be back to:
 
 ```html
 <html><head><title>my-test-webstrate</title></head><body contenteditable="">Hello</body></html>
 ```
+
+The important thing to note, however, is that the document's version will _not_ be 7, as we restored
+to, but rather at 17. We added the two operations created (the `noop` and the `op`) to the document
+history, bringing us from 15 to 17.
+
+Restoring a document is thus non-destructive to the history. Another way of restoring the document
+could have been to remove all operations after version 7 and rebuilt the document up to that point,
+but in that case, anything after version 7 would have been lost. Using our approach, it is now
+possible to "go back to the future", i.e. restore version 15 again:
+
+```json
+> webstrate.version
+17
+> webstrate.restore(15)
+undefined
+> webstrate.version
+19
+```
+
+Which would again give us a document containing just "Hello, World!".
