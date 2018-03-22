@@ -137,20 +137,22 @@ number of seconds permissions can be remain cached before they need to be revali
 
 ### Cookie
 
-Webstrates uses cookies to save the user's credentials. The cookie's name (`cookieName`), encryption
-key (`secret`) and life time (`duration`) can be configured. The `duration` is defined in
-milliseconds and defaults to 31536000000 (365 days).
+Webstrates uses cookies to save the user's credentials.
+The cookie's encryption key (`secret`) and lifetime (`duration`) are both configurable.
 
-While the default `cookieName` and `duration` are fine, the `secret` _should_ be changed by the user
-before running Webstrates! Any random text string of 30+ characters is sufficient.
+A random encryption key will automatically be generated when the `config.json` file is created by the Webstrates server.
+While it is possible to later change the encryption key by modifying `config.json`, this is not necessary and will also invalidate all existing cookies.
+
+The `duration` is defined in milliseconds and defaults to 31536000000 (365 days).
 
 ```json
 "cookie": {
-  "secret": "This is a secret",
-  "cookieName": "session",
+  "secret": "This is a secret!",
   "duration": 31536000000
 }
 ```
+
+The cookie name ("session") is non-configurable.
 
 ## Multi-threading
 
