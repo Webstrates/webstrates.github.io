@@ -2,3 +2,7 @@
 				<a class="brand" href="{{ site.baseurl }}/">{{ site.title }}</a>
 				{% if site.subtitle %}<small>{{ site.subtitle }}</small>{% endif %}
 			</h1>
+			<form id="search" method="GET" action="https://www.google.com/search" target="_blank">
+				<input type="hidden" name="sitesearch" value="webstrates.github.io" />
+				<input type="text" name="q" maxlength="255" required placeholder="Search with Google&hellip;" /><input type="submit" value="Go">
+			</form>
