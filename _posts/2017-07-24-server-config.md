@@ -115,6 +115,7 @@ Access rights are added to a webstrate as a `data-auth` attribute on the `<html>
 ```
 
 The above example provides the user with GitHub username _cklokmose_ permissions to read and write (`rw`), while users who are not logged in (`anonymous`) only have read (`r`) access.
+For more information on the usage of permissions, see [Permissions](/userguide/api/permissions.html).
 
 ### Default permissions
 
