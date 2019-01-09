@@ -20,9 +20,7 @@ A call to `webstrate.clients` from a webstrate with 4 clients connected could lo
 ["ryr0xnt57", "BJNwZnFqQ", "H14DZ3tqm", "ryrPW3YcX"]
 ```
 
-The first Client ID in the list will always be the client's own Client ID.
-This ID can also be accessed from `webstrate.clientId`.
-In this example, calling `webstrate.clientId` on the same client as above would thus yield `ryr0xnt57`.
+The client's own Client ID can be found in `webstrate.clientId`.
 
 Other than to simply identify clients, these Client IDs are also used to [send signal between clients](/userguide/api/signaling.html) as well as [sending messages](/userguide/api/messaging.html).
 
