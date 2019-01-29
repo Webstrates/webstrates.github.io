@@ -15,20 +15,17 @@ Before installing Webstrates, you'll need:
 
 - [MongoDB](http://www.mongodb.org)
 ([installation guide](https://docs.mongodb.com/manual/installation/#tutorials)).
-- [NodeJS](http://nodejs.org) ([installation guide](https://nodejs.org/en/download/package-manager/)).
-
-Webstrates generally works with the newest version of both MongoDB and NodeJS, but for the time
-being, we recommend using NodeJs v6.2.0
-([installation guide](https://github.com/creationix/nvm#installation)) as the current version has
-some socket-related issues.
+- [NodeJS](http://nodejs.org) ([installation guide](https://nodejs.org/en/download/package-manager/)) (version 8 or later).
 
 To install:
 
 - Clone [the Webstrates repository](https://github.com/Webstrates/Webstrates) with `git` or
 [download a ZIP of the source code](https://github.com/Webstrates/Webstrates/archive/master.zip) and unzip it.
 - Navigate to the repository root.
-- Copy `config-sample.json` to `config.json` and modify it
-(at least update the [cookie secret](/userguide/server-config.html#cookie)!)
+- If running Windows, modify the build command found in the scripts section of `package.json` to match:
+```
+SET NODE_ENV=production & webpack -p --config ./webpack.config.js
+```
 - Run the following from the root directory:
 ```
 npm install --production # Installs required NPM packages
@@ -41,6 +38,10 @@ A local Webstrates server should now be running at
 basic authentication (see
 [Server Config](/userguide/server-config.html#server-level-basic-authentication)). To log in, use
 "web" as username and "strate" as password.
+
+When navigating to [http://localhost:7007/](http://localhost:7007/), you should be redirected to
+[http://localhost:7007/frontpage/](http://localhost:7007/frontpage/) automatically and be presented
+with an empty webstrate (i.e. a white page).
 
 The `--production` flag prevents development/testing packages from being installed. This speeds up
 the installation and saves some space as  [puppeteer](https://www.npmjs.com/package/puppeteer)
