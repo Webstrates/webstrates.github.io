@@ -305,6 +305,8 @@ pre, code, pre code {
 	background: rgba(0, 0, 0, .04);
 	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 	white-space: pre-wrap;
+	max-height: 600px;
+	overflow: auto;
 }
 
 pre code {
