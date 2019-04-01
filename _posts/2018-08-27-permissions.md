@@ -34,22 +34,23 @@ The `data-auth` should contain a serialized JavaScript array, consisting of obje
 </html>
 ```
 
-The above example provides the user with GitHub username _cklokmose_ permissions to read and write (`rw`), while users who are not logged in (`anonymous`) only have read (`r`) access.
-Any users not present in the permissions list will not have any access to the webstrate.
+The above example provides the user with GitHub username _cklokmose_ permissions to read and write (`rw`), while users who are not logged in (_anonymous_) only have read (`r`) access.
+Logged-in users will automatically inherit the permissions of the _anonymous_ user (if defined), and thus also have read permissions to the webstrate.
+Any users not present in the permissions list will not have any access to the webstrate (either explicitly or implicitly through the anynomous user).
 
-Any user with write permissions will implictly also have write permissions.
-Adding `w` to _cklokmose_ in the above is thus technically redundant, but it adds some clarity to the user.
+Any user with write permissions will implictly also have read permissions.
+Adding `r` to _cklokmose_ in the above is thus technically redundant, but it adds some clarity to the user.
 
 <div class="info box">
   <strong>Wait, what's my username and provider?</strong>
   <p>Each user logged in with an OAuth provider will have a unique <code>userId</code>.
   The <code>userId</code> is the username and provider joined together with a <code>:</code>.</p>
-  <p>When logged in (Authorized with a OAuth provider), the <code>userId</code>, <code>username</code>,
+  <p>When logged in (authorized with a OAuth provider), the <code>userId</code>, <code>username</code>,
   and <code>provider</code> will be available on the <code>webstrate.user</code> object as
   <code>webstrate.user.userId</code>, <code>webstrate.user.username</code>,
   and <code>webstrate.user.provider</code>, respectively.</p>
   <p> The <code>webstrate.user</code> will also have a <code>permissions</code> property, containing
-  the user's webstrate permissions, e.g. <code>rw</code>.</p>
+  the user's permissions in the current webstrate, e.g. <code>rw</code>.</p>
 </div>
 
 ## Admin permissions
@@ -86,7 +87,7 @@ In the above example, we inherit the permissions from the webstrate `test-webstr
 If `test-webstrate` contains the permissions we defined in the previous example, the users _cklokmose_
 and _kbadk_ would now also have `rw` to the document.
 
-Note that the admin privilege is _not_ inherited into the new document: The user _kbadk_ will therefore _only_ have `rw` permission in the webstrate; the same as _raedle_ and _cklokmose_.
+Note that the admin privilege is not inherited into the new document: The user _kbadk_ will therefore only have `rw` permission in the webstrate; the same as _raedle_ and _cklokmose_.
 
 Recursive inheritance is supported up to a depth of 3. E.g. webstrate _X_ can inherit from _Y_, _Y_ can inherit from _Z_, but even though _Z_ inherits from _W_, the users of _W_ won't have access to X.
 Both the users of _Y_ and _Z_, however, will have access.
