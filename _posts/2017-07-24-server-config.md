@@ -182,10 +182,10 @@ it to become autotagged on next action (default 3600 seconds (60 minutes)).
 - `tagPrefix` defines the prefix of the tag that'll be created (default "Session of ").
 
 ```json
-  "tagging": {
-    "autotagInterval": 3600,
-    "tagPrefix": "Session of "
-  },
+"tagging": {
+  "autotagInterval": 3600,
+  "tagPrefix": "Session of "
+},
 ```
 
 Tags are postfixed with the current date time, so a tag might look something like:
@@ -201,3 +201,17 @@ By default, this webstrateId will be a random string betweeen 7-14 characters us
 `A-Z, a-z, 0-9, _-`, such as `S1KeySFzM`. When `niceWebstrateId` is set to `true`, webstrateIds
 that are easier to share will instead be used. These will be on the form
 \<verb\>-\<animal\>-\<number\>, e.g. `old-kangaroo-26`.
+
+## God API
+
+To use [the God API](/userguide/god-api.html), a `godApi` object with a `key` containing an access key must be defind in
+the config file:
+
+```json
+"godApi": {
+  "key": "<key goes here>"
+}
+```
+
+Anybody with access to the key can monitor almost all activity on the server, so be sure to use hard-to-guess string,
+preferably something lengthy and random.
