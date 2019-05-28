@@ -1,16 +1,44 @@
 ---
 layout: page
-title: "Activity History"
+title: "Oplog and Activity History"
 category: userguide/api
 date: 2019-03-25 11:54:44
 ---
 
-Webstrates keeps track of which documents users have been active in (i.e. created or modified), and
-not only through the op log. Webstrates also keeps a log of the last time any user modified any
-webstrate and makes this information available through the method
-`webstrate.user.history([options])` which returns a promise.
+* TOC
+{:toc}
 
-The `options` parameter is an optional object that (currently) allows the user to specify a limit
+Webstrates keeps track of which documents users have been active in (i.e. created or modified)
+through the oplog, but also through an explicit database containing information about the last time
+the user modified any webstrate and makes this information available through
+`webstrate.user.history()`.
+
+## Oplog
+
+The oplog (a record of all "operations") keeps track of any permanent changes made to a webstrate
+through the DOM. Having an oplog is essential to base Webstrates functionality. (See more in
+[Versioning](/userguide/versioning.html) and [How it works](/developerguide/how-it-works.html)).
+
+This oplog can be accessed either through the
+[HTTP API](/userguide/http-api.html#accessing-the-history-of-a-webstrate) or using
+`webstrate.getOps()`.
+
+`webstrate.getOps(fromVersion, toVersion, callback)` returns (through the callback) an array of ops
+from `fromVersion` (inclusive) to `toVersion` (exclusive). `callback` will be called with two
+arguments, the first being a potential error (or `undefined`), the second an array of ops.
+
+The following example will print an array of 10 ops (10, 11, ... 19):
+
+```javascript
+webstrate.getOps(10, 20, (err, ops) => console.log(ops));
+```
+
+## Activity History
+
+`webstrate.user.history([options])` returns a promise that resolves to an object containing
+information about the last time the calling user modified any webstrate.
+
+The `options` parameter is an optional object that allows the user to specify a limit
 to how many webstrates to query for. When limiting, the returned webstrates will always be the most
 recently modified. The default limit is 50.
 
@@ -35,7 +63,7 @@ And will give back the user an object that looks something like:
 To get back the entire history, one may just specifiy an appropriately large `limit`, for instance
 `{ limit: Number.MAX_SAFE_INTEGER }`.
 
-## Creating Activity History retroactively
+### Creating Activity History retroactively
 
 When updating Webstrates from a previous version without the Activity History feature, old documents
 will not have been added to the activity history, and as a result will not show up in the results
