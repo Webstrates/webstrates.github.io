@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Prototype, Restorate and Delete"
+title: "Prototype, Restore and Delete"
 category: userguide/api
 date: 2017-07-06 16:10:08
 disqus: 1
@@ -11,12 +11,12 @@ disqus: 1
 
 ## Prototyping
 
-When creating a webstrate that's based on another webstrate, we call it _prototyping_. This can be done either through the [HTTP API](http://localhost:4000/userguide/http-api.html#creation-of-webstrates) or the JavaScript API.
+When creating a webstrate that's based on another webstrate, we call it _prototyping_. This can be done either through the [HTTP API](/userguide/http-api.html#creation-of-webstrates) or the JavaScript API, which we will cover below.
 
 ### Prototype from a ZIP
 
 To overwrite the existing webstrate with one from a ZIP archive (like one
-[downloaded with `?dl`](http://localhost:4000/userguide/http-api.html#accessing-the-history-of-a-webstrate)),
+[downloaded with `?dl`](/userguide/http-api.html#accessing-the-history-of-a-webstrate)),
 you can prototype from a file:
 
 ```javascript
@@ -39,7 +39,7 @@ webstrate already exists or isn't empty, the promise will be rejected. If no web
 webstrateId will be assumed.
 
 When using `webstrate.newFromPrototypeFile()`, the same rules apply as with the
-[HTTP API](http://localhost:4000/userguide/http-api.html#creation-of-webstrates), so remember to add `?dl` to the
+[HTTP API](/userguide/http-api.html#creation-of-webstrates), so remember to add `?dl` to the
 end of the URL if prototyping from another webstrate.
 
 <div class="info box">
@@ -91,7 +91,7 @@ To find out more about why and how it works, check out the
 
 ## Deleting a webstrate
 
-Deleting a webstrate can exclusivel be done through the [HTTP API](http://localhost:4000/userguide/http-api.html#deleting-a-webstrate):
+Deleting a webstrate can exclusivel be done through the [HTTP API](/userguide/http-api.html#deleting-a-webstrate):
 
 * GET on `http://<hostname>/<webstrateId>?delete` will delete the document and redirect all
 connected users to the server root. The webstrate data including operations history, tags, assets,

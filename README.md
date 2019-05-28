@@ -6,6 +6,8 @@ This documentation is based on bruth's [jekyll-docs-template](http://bruth.githu
 
     jekyll serve
 
+Then access the documentation at [http://localhost:4000/](http://localhost:4000/). Any changes made to HTML, (S)CSS and Markdown will immediately be reflected while the server is running.
+
 ## Creating a page
 
     ruby bin/jekyll-page "Page title" category/subcategory
