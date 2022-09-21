@@ -50,7 +50,7 @@ user in the browser.
 ## The `MutationObserver` JavaScript API
 The [`MutationObserver` JavaScript API](https://developer.mozilla.org/en/docs/Web/API/MutationObserver)
 provides a way for developers to react to changes in the DOM. Every change to the DOM (except
-changes to input fields and textareas as several other mechanism for detecting changes to these
+changes to input fields and textareas, as several other mechanism for detecting changes to these
 elements exist) triggers a user-defined callback function, allowing developers to track changes
 made by other parts of a web application.
 
@@ -63,8 +63,8 @@ differences as Operational Transformation operations.
 Operational Transformations (OT) is a standard for expressing differences between many types of
 documents. With Webstrates, we use the [json0](https://github.com/ottypes/json0) standard to
 represent our HTML differences. These differences are called operations and are intended to be
-applied to a document to take it from one state to another, like taking a JsonML representation of a
-webstrate prior to a mutation to a JsonML representation of the same webstrate after the mutation
+applied to a document to take it from one state to another (like taking a JsonML representation of a
+webstrate prior to a mutation to a JsonML representation of the same webstrate after the mutation)
 without needing to calculate (and transmit) an entirely new JsonML representation of the DOM.
 
 For instance, if we're looking at the HTML document from before and we'd like to change the text
