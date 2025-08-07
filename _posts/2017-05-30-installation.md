@@ -67,3 +67,20 @@ files.
 
 After upgrading the source, run `npm install` to install any potential new packages, followed by
 `npm run build` to rebuild the client application code.
+
+
+## Alternative: Docker Installation
+
+You can also alternatively install it inside a docker container. To do this:
+- git clone the code and go to the directory
+- copy config-sample-docker.json to config.json to configure the server for docker (important!)
+- run `docker compose up'
+
+When navigating to [http://localhost:7007/](http://localhost:7007/), you should be redirected to
+[http://localhost:7007/frontpage/](http://localhost:7007/frontpage/) automatically and be presented
+with an empty webstrate (i.e. a white page).
+
+When you need to update it you can then do
+- `git pull` the new code
+- run `docker compose up --build` to rebuild the container
+
