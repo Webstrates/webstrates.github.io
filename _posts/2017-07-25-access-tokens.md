@@ -6,7 +6,7 @@ date: 2017-07-25 02:47:29
 disqus: 1
 ---
 
-An access tokens allows users to temporarily grant permissions to other users to act on their
+Access tokens allows users to temporarily grant permissions to other users to act on their
 behalf. An access token grants a user the same permissions to a webstrate as the user who generated
 the access token. Access tokens only grant access to the webstrate they were issued for.
 
