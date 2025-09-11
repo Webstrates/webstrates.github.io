@@ -28,6 +28,8 @@ that gets copied over to `config.json` if no `config.json` file is present when 
 | `pubsub`           | Reddis connection url (multithreading).    | unset                                 |
 | `threads`          | Number of threads to use (multihtreading). | unset                                 |
 | `niceWebstrateIds` | Whether to use random strings as webstrateIds or more human readable random names. | `false` |
+| `loggedInToCreateWebstrates` | Require login to create/copy     | `false`                               |
+| `loggedInToWrite`  | Similar to setting default permissions for anonymous to 'r' | `false`              |
 | `disableSessionLog` | Disables session logging, so the server no longer keeps track of op origin (neither IP nor userID will be saved). | `false` |
 |--------------------|--------------------------------------------|---------------------------------------|
 
